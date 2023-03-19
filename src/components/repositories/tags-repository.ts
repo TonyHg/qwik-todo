@@ -3,7 +3,8 @@ import { Tag } from "~/types/tag";
 const TAG_KEY = "tags";
 
 export const getTags = async () => {
-  const tags = localStorage.getItem(TAG_KEY);
+  if (typeof window === "undefined") return [];
+  const tags = window.localStorage.getItem(TAG_KEY);
   return tags ? JSON.parse(tags) : [];
 };
 
@@ -26,5 +27,6 @@ export const removeTag = async (tags: Tag[], tag: Tag) => {
 };
 
 export const saveTags = async (tags: Tag[]) => {
-  localStorage.setItem(TAG_KEY, JSON.stringify(tags));
+  if (typeof window === "undefined") return;
+  window.localStorage.setItem(TAG_KEY, JSON.stringify(tags));
 };

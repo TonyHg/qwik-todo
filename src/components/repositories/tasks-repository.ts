@@ -3,7 +3,8 @@ import { Task } from "~/types/task.";
 const TASK_KEY = "tasks";
 
 export const getTasks = async () => {
-  const tasks = localStorage.getItem(TASK_KEY);
+  if (typeof window === "undefined") return [];
+  const tasks = window.localStorage.getItem(TASK_KEY);
   return tasks ? JSON.parse(tasks) : [];
 };
 
@@ -32,5 +33,6 @@ export const removeTask = async (tasks: Task[], task: Task) => {
 };
 
 export const saveTasks = async (tasks: Task[]) => {
+  if (typeof window === "undefined") return;
   localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
 };
