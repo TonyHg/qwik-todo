@@ -2,9 +2,11 @@ import { Task } from "~/types/task.";
 
 const TASK_KEY = "tasks";
 
-export const getTasks = async () => {
+export const getTasks: () => Promise<Task[]> = async () => {
   if (typeof window === "undefined") return [];
+  console.log("Loading tasks...");
   const tasks = window.localStorage.getItem(TASK_KEY);
+  console.log("Tasks loaded", tasks);
   return tasks ? JSON.parse(tasks) : [];
 };
 
