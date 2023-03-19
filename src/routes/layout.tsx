@@ -1,28 +1,14 @@
-import { component$, Slot } from '@builder.io/qwik';
-import { routeLoader$ } from '@builder.io/qwik-city';
-
-import Header from '../components/header/header';
-
-export const useServerTimeLoader = routeLoader$(() => {
-  return {
-    date: new Date().toISOString(),
-  };
-});
+import { component$, Slot } from "@builder.io/qwik";
 
 export default component$(() => {
-  const serverTime = useServerTimeLoader();
   return (
     <>
       <main>
-        <Header />
-        <section>
-          <Slot />
-        </section>
+        <Slot />
       </main>
       <footer>
-        <a href="https://www.builder.io/" target="_blank">
-          Made with ♡ by Builder.io
-          <div>{serverTime.value.date}</div>
+        <a href="https://github.com/TonyHg/qwik-todo" target="_blank">
+          Tony Heng - See on github
         </a>
       </footer>
     </>

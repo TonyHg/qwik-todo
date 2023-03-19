@@ -10,7 +10,9 @@ export const getTasks: () => Promise<Task[]> = async () => {
   return tasks ? JSON.parse(tasks) : [];
 };
 
-export const addTask = async (tasks: Task[], task: Task) => {
+export const addTask = async (task: Task) => {
+  const tasks = await getTasks();
+  console.log("Adding task", task);
   tasks.push(task);
   await saveTasks(tasks);
 };
@@ -36,5 +38,6 @@ export const removeTask = async (tasks: Task[], task: Task) => {
 
 export const saveTasks = async (tasks: Task[]) => {
   if (typeof window === "undefined") return;
-  localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
+  console.debug("Saving tasks");
+  window.localStorage.setItem(TASK_KEY, JSON.stringify(tasks));
 };
