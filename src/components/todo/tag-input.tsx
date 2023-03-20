@@ -3,6 +3,8 @@ import { Tag } from "~/types/tag";
 import { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
+import { bgStyle, hoverStyle } from "~/components/todo/input";
+import { PlusCircleIcon } from "lucide-qwik";
 
 export interface TagInputProps {
   tag?: Tag;
@@ -18,38 +20,48 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
   });
 
   const handleAdd = $(() => {
-    addTag(tagInput.value).then((tags) => {
+    addTag(tagInput.value).then(({ tags, tag }) => {
       todo.tags = tags;
+      console.log(tag);
+      handleClick(tag);
+      tagOpen.value = false;
     });
   });
 
   return (
-    <>
-      <button type="button" onClick$={toggleTagOpen}>
+    <div class="relative">
+      <button
+        class={`${tagOpen.value ? bgStyle : ""} max-w-[200px] ${hoverStyle}`}
+        type="button"
+        onClick$={toggleTagOpen}
+      >
         {tag?.name ?? "Select Tag"}
       </button>
       {tagOpen.value && (
-        <div class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-          <div class="flex flex-row gap-2 py-2">
+        <div class="absolute overflow-visible z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-4">
+          <div class="flex flex-row justify-between gap-2 p-2">
             <input
               type="text"
               value={tagInput.value}
               onChange$={(event) => (tagInput.value = event.target.value)}
               placeholder="New Tag"
+              class={`focus:outline-none rounded-md px-2 py-1 w-full ${hoverStyle}`}
             />
-            <button type="button" onClick$={handleAdd}>
-              Add
+            <button
+              type="button"
+              disabled={tagInput.value.trim().length === 0}
+              class={hoverStyle}
+              onClick$={handleAdd}
+            >
+              <PlusCircleIcon />
             </button>
           </div>
-          <ul
-            class="py-2 text-sm text-gray-700 dark:text-gray-200"
-            aria-labelledby="dropdownDividerButton"
-          >
+          <ul class="p-2 text-sm">
             {todo.tags.map((tag) => (
               <li key={`tag-option-${tag.id}`}>
                 <button
                   type="button"
-                  class="block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                  class={`text-left block w-full px-4 py-2 text-sm ${hoverStyle}`}
                   onClick$={() => {
                     handleClick(tag);
                     tagOpen.value = false;
@@ -62,6 +74,6 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 });

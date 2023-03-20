@@ -30,14 +30,15 @@ export const getTag = async (id: string): Promise<Tag> => {
 
 export const addTag = async (name: string, color: string = DEFAULT_COLOR) => {
   const tags = await getTags();
-  tags.push({
+  const tag = {
     id: v4(),
     name: name,
     color: color,
     tasks: [],
-  });
+  };
+  tags.push(tag);
   await saveTags(tags);
-  return tags;
+  return { tags, tag };
 };
 
 export const editTag = async (tags: Tag[], tag: Tag) => {
