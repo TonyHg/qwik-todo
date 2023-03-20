@@ -18,10 +18,6 @@ interface AddTaskState {
   tag?: Tag;
 }
 
-export const bgStyle = "bg-gray-100";
-export const hoverStyle =
-  "hover:bg-gray-100 focus:bg-gray-100 focus:outline-none rounded-md px-2 py-1";
-
 export default component$(() => {
   const task: AddTaskState = useStore({
     name: "",
@@ -50,20 +46,20 @@ export default component$(() => {
     <form
       preventdefault:submit
       onSubmit$={handleSubmit}
-      class="flex flex-row gap-2 bg-white rounded-lg px-4 py-2 w-full justify-between items-center"
+      class="flex flex-row gap-2 card"
     >
       <input
         value={task.name}
         onChange$={(event) => (task.name = event.target.value)}
         type="text"
-        class={`w-1/2 ${hoverStyle}`}
+        class={`w-1/2 hoverable`}
         placeholder="Read last chapter of Eleceed..."
       />
       <input
         value={task.date}
         onChange$={(event) => (task.date = event.target.value)}
         type="date"
-        class={`cursor-pointer ${hoverStyle}`}
+        class={`cursor-pointer hoverable`}
       />
       <TagInput
         tag={task.tag}
@@ -74,7 +70,7 @@ export default component$(() => {
       <button
         type="submit"
         disabled={task.name.trim().length === 0}
-        class={`${loading.value ? bgStyle : ""} ${hoverStyle}`}
+        class={`${loading.value ? "bg-hover" : ""} hoverable`}
       >
         <PlusIcon class={loading.value ? "animate-spin" : "animate-pulse"} />
       </button>

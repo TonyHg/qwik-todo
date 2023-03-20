@@ -8,7 +8,7 @@ interface TagGroupProps {
 export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   return (
     <div>
-      <h2>{tag.name}</h2>
+      <h2 class="mt-6 mb-2 font-bold text-xl uppercase">{tag.name}</h2>
       <ul>
         {tag.tasks.map((task) => (
           <li key={`task-item-${task.id}`}>

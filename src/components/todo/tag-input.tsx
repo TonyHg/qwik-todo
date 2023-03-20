@@ -3,7 +3,6 @@ import { Tag } from "~/types/tag";
 import { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
-import { bgStyle, hoverStyle } from "~/components/todo/input";
 import { PlusCircleIcon } from "lucide-qwik";
 
 export interface TagInputProps {
@@ -31,7 +30,9 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
   return (
     <div class="relative">
       <button
-        class={`${tagOpen.value ? bgStyle : ""} max-w-[200px] ${hoverStyle}`}
+        class={`${
+          tagOpen.value ? "bg-hover" : ""
+        } max-w-[200px] truncate hoverable`}
         type="button"
         onClick$={toggleTagOpen}
       >
@@ -45,12 +46,12 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
               value={tagInput.value}
               onChange$={(event) => (tagInput.value = event.target.value)}
               placeholder="New Tag"
-              class={`focus:outline-none rounded-md px-2 py-1 w-full ${hoverStyle}`}
+              class={`focus:outline-none rounded-md px-2 py-1 w-full hoverable`}
             />
             <button
               type="button"
               disabled={tagInput.value.trim().length === 0}
-              class={hoverStyle}
+              class="hoverable"
               onClick$={handleAdd}
             >
               <PlusCircleIcon />
@@ -58,10 +59,12 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
           </div>
           <ul class="p-2 text-sm">
             {todo.tags.map((tag) => (
-              <li key={`tag-option-${tag.id}`}>
+              <li
+                key={`tag-option-${tag.id} mb-1 last:mb-0 max-h-[500px] overflow-y-auto`}
+              >
                 <button
                   type="button"
-                  class={`text-left block w-full px-4 py-2 text-sm ${hoverStyle}`}
+                  class={`text-left block w-full px-4 py-2 text-sm truncate hoverable`}
                   onClick$={() => {
                     handleClick(tag);
                     tagOpen.value = false;
