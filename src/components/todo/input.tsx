@@ -6,11 +6,11 @@ import {
   useStore,
 } from "@builder.io/qwik";
 import { addTask } from "~/components/repositories/tasks-repository";
-import { Tag } from "~/types/tag";
+import type { Tag } from "~/types/tag";
 import { TodoContext } from "~/components/contexts/todo-context";
-import { Todo } from "~/types/todo";
+import type { Todo } from "~/types/todo";
 import { TagInput } from "~/components/todo/tag-input";
-import { PlusIcon, LoaderIcon } from "lucide-qwik";
+import { LuPlus } from "@qwikest/icons/lucide";
 
 interface AddTaskState {
   name: string;
@@ -72,7 +72,7 @@ export default component$(() => {
         disabled={task.name.trim().length === 0}
         class={`${loading.value ? "bg-hover" : ""} hoverable`}
       >
-        <PlusIcon class={loading.value ? "animate-spin" : "animate-pulse"} />
+        <LuPlus class={loading.value ? "animate-spin" : "animate-pulse"} />
       </button>
     </form>
   );

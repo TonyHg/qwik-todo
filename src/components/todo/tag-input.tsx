@@ -3,7 +3,7 @@ import { Tag } from "~/types/tag";
 import { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
-import { PlusCircleIcon } from "lucide-qwik";
+import { LuPlus } from "@qwikest/icons/lucide";
 
 export interface TagInputProps {
   tag?: Tag;
@@ -54,7 +54,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
               class="hoverable"
               onClick$={handleAdd}
             >
-              <PlusCircleIcon />
+              <LuPlus />
             </button>
           </div>
           <ul class="p-2 text-sm">
