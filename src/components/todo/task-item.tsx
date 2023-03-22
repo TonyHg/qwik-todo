@@ -1,10 +1,10 @@
-import { $, component$, useContext } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Task } from "~/types/task.";
 import { removeTask } from "~/components/repositories/tasks-repository";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import type { Tag } from "~/types/tag";
-import { LuMenu, LuTrash } from "@qwikest/icons/lucide";
+import { LuCheck, LuGripVertical, LuTrash } from "@qwikest/icons/lucide";
 
 interface TaskItemProps {
   tag: Tag;
@@ -12,21 +12,30 @@ interface TaskItemProps {
 }
 export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
+  const confirmDelete = useSignal(false);
   const handleDelete = $(() => {
-    removeTask(tag.id, task).then((tags) => {
-      todo.tags = tags;
-    });
+    if (confirmDelete.value) {
+      removeTask(tag.id, task).then((tags) => {
+        todo.tags = tags;
+      });
+    } else {
+      confirmDelete.value = true;
+    }
   });
 
   return (
     <div class="flex flex-row card">
       <div class="flex flex-row gap-2 items-center">
-        <LuMenu />
+        <LuGripVertical class="cursor-grab" />
         <input type="checkbox" checked={task.done} />
         <p>{task.name}</p>
       </div>
       <button onClick$={handleDelete} class="hoverable">
-        <LuTrash color="#b9595b" />
+        {confirmDelete.value ? (
+          <LuCheck color="#b9595b" />
+        ) : (
+          <LuTrash color="#b9595b" />
+        )}
       </button>
     </div>
   );
