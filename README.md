@@ -1,12 +1,16 @@
-# Qwik City App ⚡️
+# Qwik Todo
 
-- [Qwik Docs](https://qwik.builder.io/)
-- [Discord](https://qwik.builder.io/chat)
-- [Qwik GitHub](https://github.com/BuilderIO/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+Simple todo list app built with Qwik.
 
----
+## Getting Started
+
+To get started, clone this repo and run `npm install` or `yarn install` to install the dependencies.
+
+```shell
+git clone
+cd qwik-todo
+npm install # or `yarn install`
+```
 
 ## Project Structure
 
@@ -63,3 +67,6 @@ The production build will generate client and server modules by running both cli
 ```shell
 npm run build # or `yarn build`
 ```
+
+## Author
+- [Tony Heng](https://github.com/TonyHg)
