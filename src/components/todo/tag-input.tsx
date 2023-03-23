@@ -22,17 +22,17 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
     addTag(tagInput.value).then(({ tags, tag }) => {
       todo.tags = tags;
       console.log(tag);
+      // eslint-disable-next-line qwik/valid-lexical-scope
       handleClick(tag);
+      tagInput.value = "";
       tagOpen.value = false;
     });
   });
 
   return (
-    <div class="relative">
+    <div class="relative w-1/4">
       <button
-        class={`${
-          tagOpen.value ? "bg-hover" : ""
-        } max-w-[200px] truncate hoverable`}
+        class={`${tagOpen.value ? "bg-hover" : ""} w-full truncate hoverable`}
         type="button"
         onClick$={toggleTagOpen}
       >
@@ -66,6 +66,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
                   type="button"
                   class={`text-left block w-full px-4 py-2 text-sm truncate hoverable`}
                   onClick$={() => {
+                    // eslint-disable-next-line qwik/valid-lexical-scope
                     handleClick(tag);
                     tagOpen.value = false;
                   }}

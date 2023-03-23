@@ -54,7 +54,7 @@ export default component$(() => {
         value={task.name}
         onChange$={(event) => (task.name = event.target.value)}
         type="text"
-        class={`w-1/2 hoverable`}
+        class={`grow hoverable`}
         placeholder="Read last chapter of Eleceed..."
       />
       <input
