@@ -12,6 +12,28 @@ cd qwik-todo
 npm install # or `yarn install`
 ```
 
+## Features
+
+- Todo
+  - Task
+    - [x] Add task
+    - [x] Delete task
+    - [x] Mark task as completed
+    - [x] Rename task
+    - [x] Move task to another list
+    - [x] Order tasks
+    - [ ] Add due date
+    - [ ] Add reminder
+  - Tag
+    - [x] Add tag
+    - [x] Delete tag
+    - [x] Rename tag
+    - [x] Order tags
+    - [ ] Pick color
+  - Style
+    - [ ] Responsive
+    - [ ] Dark mode
+
 ## Project Structure
 
 This project is using Qwik with [QwikCity](https://qwik.builder.io/qwikcity/overview/). QwikCity is just a extra set of tools on top of Qwik to make it easier to build a full site, including directory-based routing, layouts, and more.
