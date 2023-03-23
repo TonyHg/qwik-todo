@@ -25,6 +25,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
   });
 
   const handleAdd = $(() => {
+    if (tagInput.value === "") return;
     addTag(tagInput.value).then(({ tags, tag }) => {
       todo.tags = tags;
       console.log(tag);

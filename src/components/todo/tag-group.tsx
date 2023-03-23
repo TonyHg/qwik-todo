@@ -66,7 +66,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   });
 
   const handleBlur = $(() => {
-    if (name.value !== tag.name) {
+    if (name.value && name.value !== tag.name) {
       renameTag(tag, name.value);
     }
   });
@@ -85,15 +85,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}
     >
-      <div class="flex flex-row justify-between parent-hover mt-6 mb-2">
-        <input
-          value={name.value}
-          onChange$={(event) => (name.value = event.target.value)}
-          type="text"
-          onKeyDown$={handleEnter}
-          onBlur$={handleBlur}
-          class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
-        />
+      <div class="flex flex-row justify-between parent-hover mt-6 mb-2 gap-2">
         <button
           onClick$={handleDelete}
           className={`hoverable visible-hover ${
@@ -106,6 +98,14 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
             <LuTrash color="#b9595b" />
           )}
         </button>
+        <input
+          value={name.value}
+          onChange$={(event) => (name.value = event.target.value)}
+          type="text"
+          onKeyDown$={handleEnter}
+          onBlur$={handleBlur}
+          class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
+        />
       </div>
       <div
         class={`rounded-xl p-2 ${
