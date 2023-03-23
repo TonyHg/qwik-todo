@@ -6,11 +6,20 @@ import {
   useSignal,
 } from "@builder.io/qwik";
 import type { Task } from "~/types/task.";
-import { removeTask } from "~/components/repositories/tasks-repository";
+import {
+  removeTask,
+  toggleTask,
+} from "~/components/repositories/tasks-repository";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import type { Tag } from "~/types/tag";
-import { LuCheck, LuGripVertical, LuTrash } from "@qwikest/icons/lucide";
+import {
+  LuCheck,
+  LuCheckCircle2,
+  LuCircle,
+  LuGripVertical,
+  LuTrash,
+} from "@qwikest/icons/lucide";
 
 interface TaskItemProps {
   tag: Tag;
@@ -20,6 +29,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const confirmDelete = useSignal(false);
   const dragging = useSignal(false);
+  const done = useSignal(task.done);
   const handleDelete = $(() => {
     if (confirmDelete.value) {
       removeTask(tag.id, task).then((tags) => {
@@ -31,7 +41,8 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   });
 
   const toggleDone = $(() => {
-    task.done = !task.done;
+    toggleTask(tag.id, task, !done.value);
+    done.value = !done.value;
   });
 
   const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
@@ -50,18 +61,19 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
       draggable={true}
       onDragStart$={handleDragStart}
       onDragEnd$={handleDragEnd}
-      class={`flex flex-row card parent-hover ${task.done ? "card-done" : ""} ${
-        dragging.value ? "card-dragging" : ""
-      }`}
+      class={`flex flex-row card parent-hover ${
+        done.value ? "card-done" : ""
+      } ${dragging.value ? "card-dragging" : ""}`}
     >
       <div class="flex flex-row gap-2 items-center">
         <LuGripVertical class="cursor-grab visible-hover" />
-        <input
-          type="checkbox"
-          checked={task.done}
+        <div
+          role="checkbox"
+          class="cursor-pointer text-gray-800"
           onClick$={toggleDone}
-          class="cursor-pointer"
-        />
+        >
+          {done.value ? <LuCheckCircle2 /> : <LuCircle />}
+        </div>
         <p>{task.name}</p>
       </div>
       <button

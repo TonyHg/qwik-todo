@@ -15,6 +15,11 @@
   --qwik-light-blue: #18b6f6;
   --qwik-light-purple: #ac7ff4;
   --qwik-dark-purple: #713fc2;
+  color: #323f4b;
+}
+
+* {
+  transition: all 0.2s ease-in-out;
 }
 
 body {
@@ -36,7 +41,7 @@ main {
   }
 
   .card-done {
-    @apply bg-gray-100 line-through text-gray-300
+    @apply bg-gray-100 line-through text-gray-300 decoration-gray-600
   }
 
   .card-dragging {

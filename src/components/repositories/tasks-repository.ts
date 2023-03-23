@@ -43,10 +43,14 @@ export const editTask = async (tasks: Task[], task: Task) => {
   await saveTasks(tasks);
 };
 
-export const toggleTask = async (tasks: Task[], task: Task) => {
-  const index = tasks.findIndex((t) => t.id === task.id);
-  tasks[index].done = !tasks[index].done;
-  await saveTasks(tasks);
+export const toggleTask = async (tagId: string, task: Task, done: boolean) => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
+  const taskIndex = tags[index].tasks.findIndex((t) => t.id === task.id);
+  if (taskIndex === -1) throw new Error("Task not found");
+  tags[index].tasks[taskIndex].done = done;
+  await saveTags(tags);
 };
 
 export const moveTask = async (
