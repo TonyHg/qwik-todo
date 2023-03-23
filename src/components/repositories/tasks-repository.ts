@@ -43,6 +43,30 @@ export const editTask = async (tasks: Task[], task: Task) => {
   await saveTasks(tasks);
 };
 
+export const renameTask = async (tagId: string, task: Task, name: string) => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
+  const taskIndex = tags[index].tasks.findIndex((t) => t.id === task.id);
+  if (taskIndex === -1) throw new Error("Task not found");
+  tags[index].tasks[taskIndex].name = name;
+  await saveTags(tags);
+};
+
+export const changeTaskDate = async (
+  tagId: string,
+  task: Task,
+  date: string
+) => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
+  const taskIndex = tags[index].tasks.findIndex((t) => t.id === task.id);
+  if (taskIndex === -1) throw new Error("Task not found");
+  tags[index].tasks[taskIndex].date = date;
+  await saveTags(tags);
+};
+
 export const toggleTask = async (tagId: string, task: Task, done: boolean) => {
   const tags = await getTags();
   const index = tags.findIndex((t) => t.id === tagId);

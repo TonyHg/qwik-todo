@@ -8,6 +8,7 @@ import {
 import type { Task } from "~/types/task.";
 import {
   removeTask,
+  renameTask,
   toggleTask,
 } from "~/components/repositories/tasks-repository";
 import type { Todo } from "~/types/todo";
@@ -30,6 +31,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   const confirmDelete = useSignal(false);
   const dragging = useSignal(false);
   const done = useSignal(task.done);
+  const name = useSignal(task.name);
   const handleDelete = $(() => {
     if (confirmDelete.value) {
       removeTask(tag.id, task).then((tags) => {
@@ -55,6 +57,12 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     dragging.value = false;
   });
 
+  const handleBlur = $(() => {
+    if (name.value !== task.name) {
+      renameTask(tag.id, task, name.value);
+    }
+  });
+
   return (
     <div
       preventdefault:dragover
@@ -66,7 +74,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
       } ${dragging.value ? "card-dragging" : ""}`}
     >
       <div class="flex flex-row gap-2 items-center">
-        <LuGripVertical class="cursor-grab visible-hover" />
+        <LuGripVertical class="cursor-grab visible-hover text-gray-400" />
         <div
           role="checkbox"
           class="cursor-pointer text-gray-800"
@@ -74,7 +82,16 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
         >
           {done.value ? <LuCheckCircle2 /> : <LuCircle />}
         </div>
-        <p>{task.name}</p>
+        {done.value ? (
+          <p>{task.name}</p>
+        ) : (
+          <input
+            class="bg-transparent focus:outline-none rounded"
+            value={name.value}
+            onChange$={(event) => (name.value = event.target.value)}
+            onBlur$={handleBlur}
+          />
+        )}
       </div>
       <button
         onClick$={handleDelete}
