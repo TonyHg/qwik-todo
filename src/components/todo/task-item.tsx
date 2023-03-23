@@ -116,9 +116,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
           )}
           <button
             onClick$={handleDelete}
-            className={`hoverable ${
-              confirmDelete.value ? "hover:bg-red-100" : ""
-            }`}
+            class={`hoverable ${confirmDelete.value ? "hover:bg-red-100" : ""}`}
           >
             {confirmDelete.value ? (
               <LuCheck color="#b9595b" />
