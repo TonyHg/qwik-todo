@@ -3,6 +3,9 @@ import type { Task } from "~/types/task.";
 
 export interface Todo {
   tags: Tag[];
-  selectedTag?: Tag;
-  selectedTask?: Task;
+  moveTask?: {
+    task: Task;
+    tag: Tag;
+  };
+  moveTag?: Tag;
 }

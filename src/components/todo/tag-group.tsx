@@ -1,4 +1,8 @@
-import type { QwikDragEvent, QwikKeyboardEvent } from "@builder.io/qwik";
+import type {
+  QwikDragEvent,
+  QwikKeyboardEvent,
+  QwikMouseEvent,
+} from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import { TaskItem } from "~/components/todo/task-item";
@@ -39,23 +43,24 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   const listRef = useSignal<HTMLUListElement>();
   const handleTaskDrop = $(async (event: QwikDragEvent<HTMLDivElement>) => {
     draggingOver.value = false;
+    if (!todo.moveTask || !listRef.value) return;
     let tags = undefined;
-    if (todo.selectedTag?.id !== tag.id) {
-      tags = await moveTask(todo.selectedTag?.id, todo.selectedTask, tag.id);
+    if (todo.moveTask.task.id !== tag.id) {
+      tags = await moveTask(todo.moveTask.tag.id, todo.moveTask.task, tag.id);
     }
-    if (listRef.value && todo.selectedTask) {
-      let index = 0;
-      const listNodes = Array.from(listRef.value.children);
-      while (
-        index < listNodes.length &&
-        event.clientY > listNodes[index].getBoundingClientRect().top
-      ) {
-        index++;
-      }
-      console.log(index);
-      todo.tags = await moveTaskAtIndex(tag.id, tags, todo.selectedTask, index);
+    let index = 0;
+    const listNodes = Array.from(listRef.value.children);
+    while (
+      index < listNodes.length &&
+      event.clientY > listNodes[index].getBoundingClientRect().top
+    ) {
+      index++;
     }
-    if (tags) todo.tags = tags;
+    todo.tags = await moveTaskAtIndex(tag.id, tags, todo.moveTask.task, index);
+    if (tags) {
+      todo.tags = tags;
+      todo.moveTask = undefined;
+    }
   });
 
   const handleTaskDragOver = $((event: QwikDragEvent<HTMLDivElement>) => {
@@ -68,6 +73,10 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     if (draggingOver.value) {
       draggingOver.value = false;
     }
+  });
+
+  const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
+    todo.moveTag = tag;
   });
 
   const handleBlur = $(() => {
@@ -84,9 +93,11 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
 
   const dragging = useSignal(false);
   const handleMouseDown = $(() => {
+    if (dragging.value) return;
     dragging.value = true;
   });
   const handleMouseUp = $(() => {
+    if (!dragging.value) return;
     dragging.value = false;
   });
 
@@ -94,6 +105,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     <div
       preventdefault:drop
       preventdefault:dragover
+      onDragStart$={handleDragStart}
       onDragOver$={handleTaskDragOver}
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}

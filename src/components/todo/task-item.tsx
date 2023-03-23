@@ -55,8 +55,10 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   });
 
   const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
-    todo.selectedTag = tag;
-    todo.selectedTask = task;
+    todo.moveTask = {
+      task: task,
+      tag: tag,
+    };
     dragging.value = true;
   });
 
