@@ -2,7 +2,7 @@ import type { QwikDragEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import { TaskItem } from "~/components/todo/task-item";
-import { LuSlash, LuCheck, LuTrash } from "@qwikest/icons/lucide";
+import { LuCheck, LuListChecks, LuTrash } from "@qwikest/icons/lucide";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import {
@@ -113,8 +113,8 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
           ))}
         </ul>
         {tag.tasks.length === 0 && (
-          <div class="text-gray-400 flex flex-col w-full text-xl justify-center items-center text-center">
-            <LuSlash />
+          <div class="text-gray-300 flex flex-col w-full text-xl justify-center items-center text-center gap-2">
+            <LuListChecks class="text-6xl" />
             <p>No task with this tag.</p>
           </div>
         )}
