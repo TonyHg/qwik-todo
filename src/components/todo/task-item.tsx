@@ -31,6 +31,12 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const confirmDelete = useSignal(false);
   const dragging = useSignal(false);
+  const handleMouseDown = $(() => {
+    dragging.value = true;
+  });
+  const handleMouseUp = $(() => {
+    dragging.value = false;
+  });
   const done = useSignal(task.done);
   const name = useSignal(task.name);
   const handleDelete = $(() => {
@@ -73,7 +79,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   return (
     <div
       preventdefault:dragover
-      draggable={true}
+      draggable={dragging.value}
       onDragStart$={handleDragStart}
       onDragEnd$={handleDragEnd}
       class={`flex flex-row card parent-hover ${
@@ -81,7 +87,11 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
       } ${dragging.value ? "card-dragging" : ""}`}
     >
       <div class="flex flex-row grow gap-4 items-center">
-        <LuGripVertical class="cursor-grab visible-hover text-gray-400" />
+        <LuGripVertical
+          class="cursor-grab visible-hover text-gray-400"
+          onMouseDown$={handleMouseDown}
+          onMouseUp$={handleMouseUp}
+        />
         <div
           role="checkbox"
           class="cursor-pointer text-gray-800"

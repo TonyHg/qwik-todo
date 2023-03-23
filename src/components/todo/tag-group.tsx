@@ -2,7 +2,12 @@ import type { QwikDragEvent, QwikKeyboardEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import { TaskItem } from "~/components/todo/task-item";
-import { LuCheck, LuListChecks, LuTrash } from "@qwikest/icons/lucide";
+import {
+  LuCheck,
+  LuListChecks,
+  LuTrash,
+  LuGripVertical,
+} from "@qwikest/icons/lucide";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import {
@@ -77,6 +82,14 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     }
   });
 
+  const dragging = useSignal(false);
+  const handleMouseDown = $(() => {
+    dragging.value = true;
+  });
+  const handleMouseUp = $(() => {
+    dragging.value = false;
+  });
+
   return (
     <div
       preventdefault:drop
@@ -84,8 +97,22 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDragOver$={handleTaskDragOver}
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}
+      draggable={dragging.value}
     >
-      <div class="flex flex-row justify-between parent-hover mt-6 mb-2 gap-2">
+      <div class="flex flex-row justify-between items-center parent-hover mt-6 mb-2 gap-2">
+        <LuGripVertical
+          class="cursor-grab visible-hover text-gray-400"
+          onMouseDown$={handleMouseDown}
+          onMouseUp$={handleMouseUp}
+        />
+        <input
+          value={name.value}
+          onChange$={(event) => (name.value = event.target.value)}
+          type="text"
+          onKeyDown$={handleEnter}
+          onBlur$={handleBlur}
+          class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
+        />
         <button
           onClick$={handleDelete}
           className={`hoverable visible-hover ${
@@ -98,14 +125,6 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
             <LuTrash color="#b9595b" />
           )}
         </button>
-        <input
-          value={name.value}
-          onChange$={(event) => (name.value = event.target.value)}
-          type="text"
-          onKeyDown$={handleEnter}
-          onBlur$={handleBlur}
-          class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
-        />
       </div>
       <div
         class={`rounded-xl p-2 ${

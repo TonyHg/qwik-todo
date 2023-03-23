@@ -55,6 +55,16 @@ export const removeTag = async (tagId: string): Promise<Tag[]> => {
   return tags;
 };
 
+export const moveTag = async (tagId: string, index: number): Promise<Tag[]> => {
+  const tags = await getTags();
+  const tagIndex = tags.findIndex((t) => t.id === tagId);
+  if (tagIndex === -1) throw new Error("Tag not found");
+  const tag = tags.splice(tagIndex, 1)[0];
+  tags.splice(index, 0, tag);
+  await saveTags(tags);
+  return tags;
+};
+
 export const saveTags = async (tags: Tag[]) => {
   if (typeof window === "undefined") return;
   window.localStorage.setItem(TAG_KEY, JSON.stringify(tags));
