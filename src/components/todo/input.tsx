@@ -36,6 +36,8 @@ export default component$(() => {
     addTask(task.name, task.date, task.tag?.id)
       .then((tags) => {
         todo.tags = tags;
+        task.name = "";
+        task.date = undefined;
       })
       .finally(() => {
         loading.value = false;

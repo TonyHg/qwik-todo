@@ -2,7 +2,7 @@ import { component$, useContext } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import Input from "~/components/todo/input";
 import { TodoContext } from "~/components/contexts/todo-context";
-import { Todo } from "~/types/todo";
+import type { Todo } from "~/types/todo";
 import { TagGroup } from "~/components/todo/tag-group";
 
 export default component$(() => {

@@ -23,14 +23,26 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     }
   });
 
+  const toggleDone = $(() => {
+    task.done = !task.done;
+  });
+
   return (
-    <div class="flex flex-row card">
+    <div class={`flex flex-row card ${task.done ? "card-done" : ""}`}>
       <div class="flex flex-row gap-2 items-center">
         <LuGripVertical class="cursor-grab" />
-        <input type="checkbox" checked={task.done} />
+        <input
+          type="checkbox"
+          checked={task.done}
+          onClick$={toggleDone}
+          class="cursor-pointer"
+        />
         <p>{task.name}</p>
       </div>
-      <button onClick$={handleDelete} class="hoverable">
+      <button
+        onClick$={handleDelete}
+        class={`hoverable ${confirmDelete.value ? "hover:bg-red-100" : ""}`}
+      >
         {confirmDelete.value ? (
           <LuCheck color="#b9595b" />
         ) : (
