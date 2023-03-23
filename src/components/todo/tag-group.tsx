@@ -9,6 +9,7 @@ import {
   moveTask,
   moveTaskAtIndex,
 } from "~/components/repositories/tasks-repository";
+import { renameTag } from "~/components/repositories/tags-repository";
 
 interface TagGroupProps {
   tag: Tag;
@@ -16,6 +17,7 @@ interface TagGroupProps {
 export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const draggingOver = useSignal(false);
+  const name = useSignal(tag.name);
   const listRef = useSignal<HTMLUListElement>();
   const handleTaskDrop = $(async (event: QwikDragEvent<HTMLDivElement>) => {
     draggingOver.value = false;
@@ -50,6 +52,12 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     }
   });
 
+  const handleBlur = $(() => {
+    if (name.value !== tag.name) {
+      renameTag(tag, name.value);
+    }
+  });
+
   return (
     <div
       preventdefault:drop
@@ -58,7 +66,15 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}
     >
-      <h2 class="mt-6 mb-2 font-bold text-xl uppercase">{tag.name}</h2>
+      <div class="flex flex-row">
+        <input
+          value={name.value}
+          onChange$={(event) => (name.value = event.target.value)}
+          type="text"
+          onBlur$={handleBlur}
+          class="grow mt-6 mb-2 font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
+        />
+      </div>
       <div
         class={`rounded-xl p-2 ${
           draggingOver.value ? "bg-gray-100" : "bg-transparent"

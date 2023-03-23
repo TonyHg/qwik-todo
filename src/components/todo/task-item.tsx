@@ -73,7 +73,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
         done.value ? "card-done" : ""
       } ${dragging.value ? "card-dragging" : ""}`}
     >
-      <div class="flex flex-row gap-2 items-center">
+      <div class="flex flex-row grow gap-4 items-center">
         <LuGripVertical class="cursor-grab visible-hover text-gray-400" />
         <div
           role="checkbox"
@@ -86,7 +86,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
           <p>{task.name}</p>
         ) : (
           <input
-            class="bg-transparent focus:outline-none rounded"
+            class="grow bg-transparent focus:outline-none rounded"
             value={name.value}
             onChange$={(event) => (name.value = event.target.value)}
             onBlur$={handleBlur}

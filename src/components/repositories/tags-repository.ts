@@ -38,9 +38,11 @@ export const addTag = async (name: string, color: string = DEFAULT_COLOR) => {
   return { tags, tag };
 };
 
-export const editTag = async (tags: Tag[], tag: Tag) => {
+export const renameTag = async (tag: Tag, name: string) => {
+  const tags = await getTags();
   const index = tags.findIndex((t) => t.id === tag.id);
-  tags[index] = tag;
+  if (index === -1) throw new Error("Tag not found");
+  tags[index].name = name;
   await saveTags(tags);
 };
 
