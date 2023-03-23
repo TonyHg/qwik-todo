@@ -2,14 +2,17 @@ import type { QwikDragEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import { TaskItem } from "~/components/todo/task-item";
-import { LuSlash } from "@qwikest/icons/lucide";
-import { Todo } from "~/types/todo";
+import { LuSlash, LuCheck, LuTrash } from "@qwikest/icons/lucide";
+import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import {
   moveTask,
   moveTaskAtIndex,
 } from "~/components/repositories/tasks-repository";
-import { renameTag } from "~/components/repositories/tags-repository";
+import {
+  removeTag,
+  renameTag,
+} from "~/components/repositories/tags-repository";
 
 interface TagGroupProps {
   tag: Tag;
@@ -18,6 +21,16 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const draggingOver = useSignal(false);
   const name = useSignal(tag.name);
+  const confirmDelete = useSignal(false);
+  const handleDelete = $(() => {
+    if (confirmDelete.value) {
+      removeTag(tag.id).then((tags) => {
+        todo.tags = tags;
+      });
+    } else {
+      confirmDelete.value = true;
+    }
+  });
   const listRef = useSignal<HTMLUListElement>();
   const handleTaskDrop = $(async (event: QwikDragEvent<HTMLDivElement>) => {
     draggingOver.value = false;
@@ -66,14 +79,26 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}
     >
-      <div class="flex flex-row">
+      <div class="flex flex-row justify-between parent-hover mt-6 mb-2">
         <input
           value={name.value}
           onChange$={(event) => (name.value = event.target.value)}
           type="text"
           onBlur$={handleBlur}
-          class="grow mt-6 mb-2 font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
+          class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
         />
+        <button
+          onClick$={handleDelete}
+          className={`hoverable visible-hover ${
+            confirmDelete.value ? "hover:bg-red-100" : ""
+          }`}
+        >
+          {confirmDelete.value ? (
+            <LuCheck color="#b9595b" />
+          ) : (
+            <LuTrash color="#b9595b" />
+          )}
+        </button>
       </div>
       <div
         class={`rounded-xl p-2 ${

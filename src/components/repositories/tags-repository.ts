@@ -46,11 +46,13 @@ export const renameTag = async (tag: Tag, name: string) => {
   await saveTags(tags);
 };
 
-export const removeTag = async (tags: Tag[], tag: Tag) => {
-  const index = tags.indexOf(tag);
-  if (index === -1) return;
+export const removeTag = async (tagId: string): Promise<Tag[]> => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
   tags.splice(index, 1);
   await saveTags(tags);
+  return tags;
 };
 
 export const saveTags = async (tags: Tag[]) => {
