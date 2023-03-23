@@ -55,6 +55,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   });
 
   const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
+    if (todo.moveTag) return;
     todo.moveTask = {
       task: task,
       tag: tag,
@@ -84,45 +85,49 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
       draggable={dragging.value}
       onDragStart$={handleDragStart}
       onDragEnd$={handleDragEnd}
-      class={`flex flex-row card parent-hover ${
-        done.value ? "card-done" : ""
-      } ${dragging.value ? "card-dragging" : ""}`}
+      class={`flex flex-row parent-hover ${done.value ? "card-done" : ""} ${
+        dragging.value ? "card-dragging" : ""
+      }`}
     >
-      <div class="flex flex-row grow gap-4 items-center">
+      <div class="flex flex-row grow gap-1 items-center">
         <LuGripVertical
           class="cursor-grab visible-hover text-gray-400"
           onMouseDown$={handleMouseDown}
           onMouseUp$={handleMouseUp}
         />
-        <div
-          role="checkbox"
-          class="cursor-pointer text-gray-800"
-          onClick$={toggleDone}
-        >
-          {done.value ? <LuCheckCircle2 /> : <LuCircle />}
+        <div class="card flex flex-row gap-4 grow">
+          <div
+            role="checkbox"
+            class="cursor-pointer text-gray-800"
+            onClick$={toggleDone}
+          >
+            {done.value ? <LuCheckCircle2 /> : <LuCircle />}
+          </div>
+          {done.value ? (
+            <p>{task.name}</p>
+          ) : (
+            <input
+              class="grow bg-transparent focus:outline-none rounded"
+              value={name.value}
+              onChange$={(event) => (name.value = event.target.value)}
+              onKeyDown$={handleEnter}
+              onBlur$={handleBlur}
+            />
+          )}
+          <button
+            onClick$={handleDelete}
+            className={`hoverable ${
+              confirmDelete.value ? "hover:bg-red-100" : ""
+            }`}
+          >
+            {confirmDelete.value ? (
+              <LuCheck color="#b9595b" />
+            ) : (
+              <LuTrash color="#b9595b" />
+            )}
+          </button>
         </div>
-        {done.value ? (
-          <p>{task.name}</p>
-        ) : (
-          <input
-            class="grow bg-transparent focus:outline-none rounded"
-            value={name.value}
-            onChange$={(event) => (name.value = event.target.value)}
-            onKeyDown$={handleEnter}
-            onBlur$={handleBlur}
-          />
-        )}
       </div>
-      <button
-        onClick$={handleDelete}
-        class={`hoverable ${confirmDelete.value ? "hover:bg-red-100" : ""}`}
-      >
-        {confirmDelete.value ? (
-          <LuCheck color="#b9595b" />
-        ) : (
-          <LuTrash color="#b9595b" />
-        )}
-      </button>
     </div>
   );
 });

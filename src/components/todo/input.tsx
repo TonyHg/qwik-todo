@@ -4,6 +4,7 @@ import {
   useContext,
   useSignal,
   useStore,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import { addTask } from "~/components/repositories/tasks-repository";
 import type { Tag } from "~/types/tag";
@@ -24,10 +25,15 @@ export default component$(() => {
     date: undefined,
     tag: undefined,
   });
+  const todo: Todo = useContext(TodoContext) as Todo;
+  useVisibleTask$(async ({ track }) => {
+    track(() => todo.tags);
+    if (task.tag === undefined && todo.tags.length > 0) {
+      task.tag = todo.tags[0];
+    }
+  });
 
   const loading = useSignal(false);
-
-  const todo: Todo = useContext(TodoContext) as Todo;
 
   const handleSubmit = $(() => {
     console.debug("Adding new task");

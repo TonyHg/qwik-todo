@@ -16,7 +16,7 @@ export default component$(() => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const listRef = useSignal<HTMLUListElement>();
   const handleTaskDrop = $(async (event: QwikDragEvent<HTMLUListElement>) => {
-    if (!todo.moveTag || !listRef.value) return;
+    if (!todo.moveTag || !listRef.value || todo.moveTask) return;
     let index = 0;
     const listNodes = Array.from(listRef.value.children);
     while (

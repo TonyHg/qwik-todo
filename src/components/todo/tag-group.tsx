@@ -43,7 +43,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   const listRef = useSignal<HTMLUListElement>();
   const handleTaskDrop = $(async (event: QwikDragEvent<HTMLDivElement>) => {
     draggingOver.value = false;
-    if (!todo.moveTask || !listRef.value) return;
+    if (!todo.moveTask || !listRef.value || todo.moveTag) return;
     let tags = undefined;
     if (todo.moveTask.task.id !== tag.id) {
       tags = await moveTask(todo.moveTask.tag.id, todo.moveTask.task, tag.id);
@@ -76,6 +76,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   });
 
   const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
+    if (todo.moveTask) return;
     todo.moveTag = tag;
   });
 
