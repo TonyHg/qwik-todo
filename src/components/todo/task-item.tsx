@@ -1,4 +1,10 @@
-import { $, component$, useContext, useSignal } from "@builder.io/qwik";
+import {
+  $,
+  component$,
+  QwikDragEvent,
+  useContext,
+  useSignal,
+} from "@builder.io/qwik";
 import type { Task } from "~/types/task.";
 import { removeTask } from "~/components/repositories/tasks-repository";
 import type { Todo } from "~/types/todo";
@@ -13,6 +19,7 @@ interface TaskItemProps {
 export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const confirmDelete = useSignal(false);
+  const dragging = useSignal(false);
   const handleDelete = $(() => {
     if (confirmDelete.value) {
       removeTask(tag.id, task).then((tags) => {
@@ -27,8 +34,26 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     task.done = !task.done;
   });
 
+  const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
+    event.dataTransfer.setData("json", JSON.stringify(task));
+    console.log(event);
+    dragging.value = true;
+  });
+
+  const handleDragEnd = $((event: QwikDragEvent<HTMLDivElement>) => {
+    dragging.value = false;
+  });
+
   return (
-    <div class={`flex flex-row card ${task.done ? "card-done" : ""}`}>
+    <div
+      preventdefault:dragover
+      draggable={true}
+      onDragStart$={handleDragStart}
+      onDragEnd$={handleDragEnd}
+      class={`flex flex-row card ${task.done ? "card-done" : ""} ${
+        dragging.value ? "card-dragging" : ""
+      }`}
+    >
       <div class="flex flex-row gap-2 items-center">
         <LuGripVertical class="cursor-grab" />
         <input
