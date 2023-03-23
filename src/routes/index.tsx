@@ -1,7 +1,8 @@
+import type {
+  QwikDragEvent} from "@builder.io/qwik";
 import {
   $,
   component$,
-  QwikDragEvent,
   useContext,
   useSignal,
 } from "@builder.io/qwik";

@@ -1,11 +1,5 @@
-import {
-  $,
-  component$,
-  QwikDragEvent,
-  QwikKeyboardEvent,
-  useContext,
-  useSignal,
-} from "@builder.io/qwik";
+import type { QwikKeyboardEvent } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Task } from "~/types/task.";
 import {
   removeTask,
@@ -54,7 +48,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     done.value = !done.value;
   });
 
-  const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
+  const handleDragStart = $(() => {
     if (todo.moveTag) return;
     todo.moveTask = {
       task: task,
@@ -63,7 +57,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     dragging.value = true;
   });
 
-  const handleDragEnd = $((event: QwikDragEvent<HTMLDivElement>) => {
+  const handleDragEnd = $(() => {
     dragging.value = false;
   });
 

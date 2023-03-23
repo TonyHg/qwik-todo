@@ -1,12 +1,13 @@
+import type {
+  QwikKeyboardEvent} from "@builder.io/qwik";
 import {
   $,
   component$,
-  QwikKeyboardEvent,
   useContext,
   useSignal,
 } from "@builder.io/qwik";
-import { Tag } from "~/types/tag";
-import { Todo } from "~/types/todo";
+import type { Tag } from "~/types/tag";
+import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
 import { LuPlus } from "@qwikest/icons/lucide";

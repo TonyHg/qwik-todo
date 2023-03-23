@@ -1,16 +1,12 @@
-import type {
-  QwikDragEvent,
-  QwikKeyboardEvent,
-  QwikMouseEvent,
-} from "@builder.io/qwik";
+import type { QwikDragEvent, QwikKeyboardEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import { TaskItem } from "~/components/todo/task-item";
 import {
   LuCheck,
+  LuGripVertical,
   LuListChecks,
   LuTrash,
-  LuGripVertical,
 } from "@qwikest/icons/lucide";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
@@ -63,19 +59,19 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     }
   });
 
-  const handleTaskDragOver = $((event: QwikDragEvent<HTMLDivElement>) => {
+  const handleTaskDragOver = $(() => {
     if (!draggingOver.value) {
       draggingOver.value = true;
     }
   });
 
-  const handleTaskDragLeave = $((event: QwikDragEvent<HTMLDivElement>) => {
+  const handleTaskDragLeave = $(() => {
     if (draggingOver.value) {
       draggingOver.value = false;
     }
   });
 
-  const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
+  const handleDragStart = $(() => {
     if (todo.moveTask) return;
     todo.moveTag = tag;
   });

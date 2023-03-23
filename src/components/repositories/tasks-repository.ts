@@ -1,11 +1,11 @@
-import { Task } from "~/types/task.";
+import type { Task } from "~/types/task.";
 import {
   DEFAULT_TAG,
   getTags,
   saveTags,
 } from "~/components/repositories/tags-repository";
 import { v4 } from "uuid";
-import { Tag } from "~/types/tag";
+import type { Tag } from "~/types/tag";
 
 const TASK_KEY = "tasks";
 
