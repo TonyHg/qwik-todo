@@ -11,12 +11,24 @@ interface TagGroupProps {
 export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   const handleTaskDrop = $((event: QwikDragEvent<HTMLDivElement>) => {
     console.log("Dropped!", event);
-    const task: Task = JSON.parse(event.dataTransfer.getData("json"));
+    const task: Task = JSON.parse(
+      event.dataTransfer.getData("application/json")
+    );
+    console.log(task);
     tag.tasks = [...tag.tasks, task];
   });
 
+  const handleTaskDragOver = $((event: QwikDragEvent<HTMLDivElement>) => {
+    event.dataTransfer.dropEffect = "move";
+  });
+
   return (
-    <div preventdefault:drop preventdefault:dragover onDrop$={handleTaskDrop}>
+    <div
+      preventdefault:drop
+      preventdefault:dragover
+      onDragOver$={handleTaskDragOver}
+      onDrop$={handleTaskDrop}
+    >
       <h2 class="mt-6 mb-2 font-bold text-xl uppercase">{tag.name}</h2>
       <ul>
         {tag.tasks.map((task) => (

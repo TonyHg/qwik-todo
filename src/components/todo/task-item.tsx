@@ -35,8 +35,9 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   });
 
   const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
-    event.dataTransfer.setData("json", JSON.stringify(task));
-    console.log(event);
+    event.dataTransfer.setData("application/json", JSON.stringify(task));
+    event.dataTransfer.dropEffect = "move";
+    console.log(event.dataTransfer);
     dragging.value = true;
   });
 
