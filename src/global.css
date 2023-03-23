@@ -50,4 +50,12 @@ main {
   .bg-hover {
     @apply bg-gray-100;
   }
+
+  .visible-hover {
+    @apply opacity-0;
+  }
+
+  .parent-hover:hover .visible-hover {
+    @apply opacity-100;
+  }
 }

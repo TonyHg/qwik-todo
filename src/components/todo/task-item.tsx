@@ -35,9 +35,8 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
   });
 
   const handleDragStart = $((event: QwikDragEvent<HTMLDivElement>) => {
-    event.dataTransfer.setData("application/json", JSON.stringify(task));
-    event.dataTransfer.dropEffect = "move";
-    console.log(event.dataTransfer);
+    todo.selectedTag = tag;
+    todo.selectedTask = task;
     dragging.value = true;
   });
 
@@ -51,12 +50,12 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
       draggable={true}
       onDragStart$={handleDragStart}
       onDragEnd$={handleDragEnd}
-      class={`flex flex-row card ${task.done ? "card-done" : ""} ${
+      class={`flex flex-row card parent-hover ${task.done ? "card-done" : ""} ${
         dragging.value ? "card-dragging" : ""
       }`}
     >
       <div class="flex flex-row gap-2 items-center">
-        <LuGripVertical class="cursor-grab" />
+        <LuGripVertical class="cursor-grab visible-hover" />
         <input
           type="checkbox"
           checked={task.done}

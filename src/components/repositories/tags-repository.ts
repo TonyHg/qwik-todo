@@ -1,8 +1,5 @@
-import { Tag } from "~/types/tag";
+import type { Tag } from "~/types/tag";
 import { v4 } from "uuid";
-import { useContext } from "@builder.io/qwik";
-import { TodoContext } from "~/components/contexts/todo-context";
-import { Todo } from "~/types/todo";
 
 const TAG_KEY = "tags";
 const DEFAULT_COLOR = "#2a2c2f";
