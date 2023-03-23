@@ -1,4 +1,4 @@
-import type { QwikDragEvent } from "@builder.io/qwik";
+import type { QwikDragEvent, QwikKeyboardEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import { TaskItem } from "~/components/todo/task-item";
@@ -71,6 +71,12 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     }
   });
 
+  const handleEnter = $((event: QwikKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleBlur();
+    }
+  });
+
   return (
     <div
       preventdefault:drop
@@ -84,6 +90,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
           value={name.value}
           onChange$={(event) => (name.value = event.target.value)}
           type="text"
+          onKeyDown$={handleEnter}
           onBlur$={handleBlur}
           class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
         />

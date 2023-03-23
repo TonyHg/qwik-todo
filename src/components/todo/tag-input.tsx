@@ -1,4 +1,10 @@
-import { $, component$, useContext, useSignal } from "@builder.io/qwik";
+import {
+  $,
+  component$,
+  QwikKeyboardEvent,
+  useContext,
+  useSignal,
+} from "@builder.io/qwik";
 import { Tag } from "~/types/tag";
 import { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
@@ -29,6 +35,12 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
     });
   });
 
+  const handleEnter = $((event: QwikKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleAdd();
+    }
+  });
+
   return (
     <div class="relative w-1/4">
       <button
@@ -45,6 +57,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
               type="text"
               value={tagInput.value}
               onChange$={(event) => (tagInput.value = event.target.value)}
+              onKeyDown$={handleEnter}
               placeholder="New Tag"
               class={`focus:outline-none rounded-md px-2 py-1 w-full hoverable`}
             />

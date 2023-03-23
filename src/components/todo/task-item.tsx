@@ -2,6 +2,7 @@ import {
   $,
   component$,
   QwikDragEvent,
+  QwikKeyboardEvent,
   useContext,
   useSignal,
 } from "@builder.io/qwik";
@@ -63,6 +64,12 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     }
   });
 
+  const handleEnter = $((event: QwikKeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      handleBlur();
+    }
+  });
+
   return (
     <div
       preventdefault:dragover
@@ -89,6 +96,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             class="grow bg-transparent focus:outline-none rounded"
             value={name.value}
             onChange$={(event) => (name.value = event.target.value)}
+            onKeyDown$={handleEnter}
             onBlur$={handleBlur}
           />
         )}
