@@ -12,9 +12,7 @@ export const DEFAULT_TAG: Tag = {
 
 export const getTags: () => Promise<Tag[]> = async () => {
   if (typeof window === "undefined") return [];
-  console.log("Loading tags...");
   const tags = window.localStorage.getItem(TAG_KEY);
-  console.log("Tags loaded", tags);
   return tags ? JSON.parse(tags) : [DEFAULT_TAG];
 };
 
