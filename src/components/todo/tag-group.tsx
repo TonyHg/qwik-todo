@@ -5,7 +5,10 @@ import { TaskItem } from "~/components/todo/task-item";
 import { LuSlash } from "@qwikest/icons/lucide";
 import { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
-import { moveTask } from "~/components/repositories/tasks-repository";
+import {
+  moveTask,
+  moveTaskAtIndex,
+} from "~/components/repositories/tasks-repository";
 
 interface TagGroupProps {
   tag: Tag;
@@ -13,11 +16,26 @@ interface TagGroupProps {
 export const TagGroup = component$<TagGroupProps>(({ tag }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const draggingOver = useSignal(false);
-  const handleTaskDrop = $((event: QwikDragEvent<HTMLDivElement>) => {
+  const listRef = useSignal<HTMLUListElement>();
+  const handleTaskDrop = $(async (event: QwikDragEvent<HTMLDivElement>) => {
     draggingOver.value = false;
-    moveTask(todo.selectedTag?.id, todo.selectedTask, tag.id).then((tags) => {
-      todo.tags = tags;
-    });
+    let tags = undefined;
+    if (todo.selectedTag?.id !== tag.id) {
+      tags = await moveTask(todo.selectedTag?.id, todo.selectedTask, tag.id);
+    }
+    if (listRef.value && todo.selectedTask) {
+      let index = 0;
+      const listNodes = Array.from(listRef.value.children);
+      while (
+        index < listNodes.length &&
+        event.clientY > listNodes[index].getBoundingClientRect().top
+      ) {
+        index++;
+      }
+      console.log(index);
+      todo.tags = await moveTaskAtIndex(tag.id, tags, todo.selectedTask, index);
+    }
+    if (tags) todo.tags = tags;
   });
 
   const handleTaskDragOver = $((event: QwikDragEvent<HTMLDivElement>) => {
@@ -46,7 +64,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
           draggingOver.value ? "bg-gray-100" : "bg-transparent"
         }`}
       >
-        <ul>
+        <ul ref={listRef}>
           {tag.tasks.map((task) => (
             <li key={`task-item-${task.id}`} class="mb-2 last:mb-0">
               <TaskItem tag={tag} task={task} />

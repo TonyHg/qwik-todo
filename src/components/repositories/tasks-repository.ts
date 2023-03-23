@@ -68,6 +68,26 @@ export const moveTask = async (
   return tags;
 };
 
+export const moveTaskAtIndex = async (
+  tagId: string,
+  tags?: Tag[],
+  task?: Task,
+  index?: number
+): Promise<Tag[]> => {
+  if (!tagId || !task || index === undefined)
+    throw new Error("Invalid parameters");
+  tags ??= await getTags();
+  const tagIndex = tags.findIndex((t) => t.id === tagId);
+  if (tagIndex === -1) throw new Error("Tag not found");
+  const taskIndex = tags[tagIndex].tasks.findIndex((t) => t.id === task.id);
+  if (taskIndex === -1) throw new Error("Task not found");
+  index--;
+  tags[tagIndex].tasks.splice(taskIndex, 1);
+  tags[tagIndex].tasks.splice(index, 0, task);
+  await saveTags(tags);
+  return tags;
+};
+
 export const removeTask = async (tagId: string, task: Task) => {
   const tags = await getTags();
   const index = tags.findIndex((t) => t.id === tagId);
