@@ -63,4 +63,12 @@ main {
   .parent-hover:hover .visible-hover {
     @apply opacity-100;
   }
+
+  .btn-active {
+    @apply bg-blue-600 text-white
+  }
+
+  .btn-active:hover {
+    @apply bg-blue-700
+  }
 }

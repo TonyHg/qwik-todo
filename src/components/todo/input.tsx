@@ -78,9 +78,11 @@ export default component$(() => {
       <button
         type="submit"
         disabled={task.name.trim().length === 0}
-        class={`${loading.value ? "bg-hover" : ""} hoverable`}
+        class={`hoverable aspect-square ${
+          task.name.trim().length === 0 ? "bg-hover" : "btn-active"
+        }  delay-75`}
       >
-        <LuPlus class={loading.value ? "animate-spin" : "animate-pulse"} />
+        <LuPlus class={loading.value ? "animate-spin" : ""} />
       </button>
     </form>
   );
