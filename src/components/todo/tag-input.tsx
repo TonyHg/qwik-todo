@@ -1,16 +1,11 @@
-import type {
-  QwikKeyboardEvent} from "@builder.io/qwik";
-import {
-  $,
-  component$,
-  useContext,
-  useSignal,
-} from "@builder.io/qwik";
+import type { QwikKeyboardEvent } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Tag } from "~/types/tag";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
-import { LuPlus } from "@qwikest/icons/lucide";
+import { LuCheck, LuPlus } from "@qwikest/icons/lucide";
+import { COLORS } from "~/types/color";
 
 export interface TagInputProps {
   tag?: Tag;
@@ -19,6 +14,7 @@ export interface TagInputProps {
 export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
   const todo: Todo = useContext(TodoContext) as Todo;
   const tagInput = useSignal("");
+  const tagColor = useSignal(COLORS[0]);
   const tagOpen = useSignal(false);
 
   const toggleTagOpen = $(() => {
@@ -26,8 +22,8 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
   });
 
   const handleAdd = $(() => {
-    if (tagInput.value === "") return;
-    addTag(tagInput.value).then(({ tags, tag }) => {
+    if (tagInput.value.trim().length === 0) return;
+    addTag(tagInput.value, tagColor.value).then(({ tags, tag }) => {
       todo.tags = tags;
       console.log(tag);
       // eslint-disable-next-line qwik/valid-lexical-scope
@@ -54,24 +50,50 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
       </button>
       {tagOpen.value && (
         <div class="absolute overflow-visible z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-4">
-          <div class="flex flex-row justify-between gap-2 p-2">
-            <input
-              type="text"
-              value={tagInput.value}
-              onChange$={(event) => (tagInput.value = event.target.value)}
-              onKeyDown$={handleEnter}
-              placeholder="New Tag"
-              class={`focus:outline-none rounded-md px-2 py-1 w-full hoverable`}
-            />
-            <button
-              type="button"
-              disabled={tagInput.value.trim().length === 0}
-              class="hoverable"
-              onClick$={handleAdd}
-            >
-              <LuPlus />
-            </button>
-          </div>
+          <form
+            preventdefault:submit
+            class="flex flex-col gap-2"
+            onSubmit$={handleAdd}
+          >
+            <div class="flex flex-row justify-between gap-2 p-2">
+              <input
+                type="text"
+                value={tagInput.value}
+                onChange$={(event) => (tagInput.value = event.target.value)}
+                onKeyDown$={handleEnter}
+                placeholder="New Tag"
+                class={`focus:outline-none rounded-md px-2 py-1 w-full hoverable`}
+              />
+              <button
+                type="submit"
+                disabled={tagInput.value.trim().length === 0}
+                class="hoverable"
+              >
+                <LuPlus />
+              </button>
+            </div>
+            <div class="flex flex-row gap-2 px-2 pb-2 w-full overflow-x-auto">
+              {COLORS.map((color) => (
+                <button
+                  key={`tag-color-${color}`}
+                  type="button"
+                  class={`w-6 h-6 aspect-square rounded-md hoverable p-0 flex ${
+                    color === tagColor.value ? "border-2 border-gray-800" : ""
+                  }`}
+                  style={`background-color: ${color}`}
+                  onClick$={() => {
+                    tagColor.value = color;
+                  }}
+                >
+                  {color === tagColor.value && (
+                    <div class="m-auto">
+                      <LuCheck color="white" />
+                    </div>
+                  )}
+                </button>
+              ))}
+            </div>
+          </form>
           <ul class="p-2 text-sm">
             {todo.tags.map((tag) => (
               <li

@@ -107,6 +107,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}
       draggable={dragging.value}
+      style={{ color: tag.color }}
     >
       <div class="flex flex-row justify-between items-center parent-hover mt-6 mb-2 gap-2">
         <LuGripVertical

@@ -1,6 +1,6 @@
 import type { QwikKeyboardEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
-import type { Task } from "~/types/task.";
+import type { Task } from "~/types/task";
 import {
   removeTask,
   renameTask,

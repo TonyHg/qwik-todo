@@ -1,8 +1,8 @@
 import type { Tag } from "~/types/tag";
 import { v4 } from "uuid";
+import { DEFAULT_COLOR } from "~/types/color";
 
 const TAG_KEY = "tags";
-const DEFAULT_COLOR = "#2a2c2f";
 export const DEFAULT_TAG: Tag = {
   id: "default",
   name: "Other",
