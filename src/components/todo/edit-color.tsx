@@ -1,7 +1,7 @@
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import { ColorList } from "~/components/todo/color-list";
 import { changeTagColor } from "~/components/repositories/tags-repository";
-import { Todo } from "~/types/todo";
+import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 
 interface EditColorProps {

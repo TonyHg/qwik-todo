@@ -1,4 +1,4 @@
-import { $, component$ } from "@builder.io/qwik";
+import { component$ } from "@builder.io/qwik";
 import { COLORS } from "~/types/color";
 import { LuCheck } from "@qwikest/icons/lucide";
 
