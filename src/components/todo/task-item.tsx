@@ -99,7 +99,11 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             class="cursor-pointer text-gray-800"
             onClick$={toggleDone}
           >
-            {done.value ? <LuCheckCircle2 /> : <LuCircle />}
+            {done.value ? (
+              <LuCheckCircle2 color={tag.color} />
+            ) : (
+              <LuCircle color={tag.color} />
+            )}
           </div>
           {done.value ? (
             <p class="grow">{task.name}</p>

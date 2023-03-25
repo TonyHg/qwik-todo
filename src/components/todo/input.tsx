@@ -36,8 +36,6 @@ export default component$(() => {
   const loading = useSignal(false);
 
   const handleSubmit = $(() => {
-    console.debug("Adding new task");
-    console.log(task);
     loading.value = true;
     addTask(task.name, task.date, task.tag?.id)
       .then((tags) => {
@@ -66,7 +64,7 @@ export default component$(() => {
       <input
         value={task.date}
         onChange$={(event) => (task.date = event.target.value)}
-        type="date"
+        type="datetime-local"
         class={`cursor-pointer hoverable`}
       />
       <TagInput
