@@ -24,8 +24,8 @@ npm install # or `yarn install`
     - [x] Rename task
     - [x] Move task to another list
     - [x] Order tasks
-    - [ ] Add due date
-    - [ ] Add reminder
+    - [x] Add due date
+    - [ ] Add reminder (push notification)
   - Tag
     - [x] Add tag
     - [x] Delete tag
