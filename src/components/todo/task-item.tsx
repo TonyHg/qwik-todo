@@ -79,7 +79,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
       draggable={dragging.value}
       onDragStart$={handleDragStart}
       onDragEnd$={handleDragEnd}
-      class={`flex flex-row parent-hover ${done.value ? "card-done" : ""} ${
+      class={`flex flex-row parent-hover ${
         dragging.value ? "card-dragging" : ""
       }`}
     >
@@ -89,7 +89,11 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
           onMouseDown$={handleMouseDown}
           onMouseUp$={handleMouseUp}
         />
-        <div class="card flex flex-row gap-4 grow">
+        <div
+          class={`card flex flex-row gap-4 grow ${
+            done.value ? "card-done" : ""
+          }`}
+        >
           <div
             role="checkbox"
             class="cursor-pointer text-gray-800"
@@ -98,7 +102,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             {done.value ? <LuCheckCircle2 /> : <LuCircle />}
           </div>
           {done.value ? (
-            <p>{task.name}</p>
+            <p class="grow">{task.name}</p>
           ) : (
             <input
               class="grow bg-transparent focus:outline-none rounded"
