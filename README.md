@@ -2,6 +2,8 @@
 
 Simple todo list app built with Qwik.
 
+![overview](https://github.com/TonyHg/qwik-todo/blob/main/overview.png?raw=true)
+
 ## Getting Started
 
 To get started, clone this repo and run `npm install` or `yarn install` to install the dependencies.
