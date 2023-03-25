@@ -1,7 +1,8 @@
-import type { QwikKeyboardEvent } from "@builder.io/qwik";
+import type { QwikChangeEvent, QwikKeyboardEvent } from "@builder.io/qwik";
 import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { Task } from "~/types/task";
 import {
+  changeTaskDate,
   removeTask,
   renameTask,
   toggleTask,
@@ -73,6 +74,12 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     }
   });
 
+  const handleDateChange = $((event: QwikChangeEvent<HTMLInputElement>) => {
+    if (event.target.value !== task.date) {
+      changeTaskDate(tag.id, task, event.target.value);
+    }
+  });
+
   return (
     <div
       preventdefault:dragover
@@ -116,9 +123,19 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
               onBlur$={handleBlur}
             />
           )}
+          <input
+            value={task.date}
+            onChange$={handleDateChange}
+            type="datetime-local"
+            className={`cursor-pointer hoverable ${
+              task.date ? "" : "visible-hover"
+            }`}
+          />
           <button
             onClick$={handleDelete}
-            class={`hoverable ${confirmDelete.value ? "hover:bg-red-100" : ""}`}
+            class={`hoverable aspect-square ${
+              confirmDelete.value ? "hover:bg-red-100" : ""
+            }`}
           >
             {confirmDelete.value ? (
               <LuCheck color="#b9595b" />

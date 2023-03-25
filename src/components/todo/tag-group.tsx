@@ -127,7 +127,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
         <EditColor tagId={tag.id} color={tag.color} />
         <button
           onClick$={handleDelete}
-          class={`hoverable visible-hover ${
+          class={`hoverable visible-hover aspect-square ${
             confirmDelete.value ? "hover:bg-red-100" : ""
           }`}
         >
