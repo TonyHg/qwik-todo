@@ -19,6 +19,8 @@ import {
   renameTag,
 } from "~/components/repositories/tags-repository";
 import { EditColor } from "~/components/todo/edit-color";
+import { ThemeContext } from "~/components/contexts/theme-context";
+import type { Theme } from "~/types/color";
 
 interface TagGroupProps {
   tag: Tag;
@@ -99,6 +101,8 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
     dragging.value = false;
   });
 
+  const theme = useContext(ThemeContext) as Theme;
+
   return (
     <div
       preventdefault:drop
@@ -108,7 +112,12 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDragLeave$={handleTaskDragLeave}
       onDrop$={handleTaskDrop}
       draggable={dragging.value}
-      style={{ color: tag.color }}
+      style={{
+        color:
+          theme.value === "dark" && tag.color === "#2a2c2f"
+            ? "white"
+            : tag.color,
+      }}
     >
       <div class="flex flex-row justify-between items-center parent-hover mt-6 mb-2 gap-2">
         <LuGripVertical

@@ -6,7 +6,9 @@ import { TodoContext } from "~/components/contexts/todo-context";
 import type { Todo } from "~/types/todo";
 import { TagGroup } from "~/components/todo/tag-group";
 import { moveTag } from "~/components/repositories/tags-repository";
-import { LuSun } from "@qwikest/icons/lucide";
+import { LuMoon, LuSun } from "@qwikest/icons/lucide";
+import { ThemeContext } from "~/components/contexts/theme-context";
+import type { Theme } from "~/types/color";
 
 export default component$(() => {
   const todo: Todo = useContext(TodoContext) as Todo;
@@ -28,12 +30,21 @@ export default component$(() => {
     }
   });
 
+  const theme = useContext(ThemeContext) as Theme;
+  const toggleDarkMode = $(() => {
+    theme.value = theme.value === "light" ? "dark" : "light";
+  });
+
   return (
     <div>
       <div class="flex flex-row justify-between gap-2 mb-4">
-        <h1 class="font-bold text-3xl">Todo List</h1>
-        <button type="button" class="hoverable">
-          <LuSun />
+        <h1 class="font-bold text-3xl dark:text-white">Todo List</h1>
+        <button
+          type="button"
+          class="hoverable dark:text-white"
+          onClick$={toggleDarkMode}
+        >
+          {theme.value === "light" ? <LuSun /> : <LuMoon />}
         </button>
       </div>
       <Input />

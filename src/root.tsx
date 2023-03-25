@@ -8,6 +8,7 @@ import { RouterHead } from "./components/router-head/router-head";
 
 import "./global.css";
 import { TodoProvider } from "~/components/providers/todo-provider";
+import { ThemeProvider } from "~/components/providers/theme-provider";
 
 export default component$(() => {
   /**
@@ -26,10 +27,12 @@ export default component$(() => {
         <title>Todo List</title>
       </head>
       <body lang="en">
-        <TodoProvider>
-          <RouterOutlet />
-          <ServiceWorkerRegister />
-        </TodoProvider>
+        <ThemeProvider>
+          <TodoProvider>
+            <RouterOutlet />
+            <ServiceWorkerRegister />
+          </TodoProvider>
+        </ThemeProvider>
       </body>
     </QwikCityProvider>
   );

@@ -58,14 +58,14 @@ export default component$(() => {
         value={task.name}
         onChange$={(event) => (task.name = event.target.value)}
         type="text"
-        class={`grow hoverable`}
+        class="grow hoverable input"
         placeholder="Read last chapter of Eleceed..."
       />
       <input
         value={task.date}
         onChange$={(event) => (task.date = event.target.value)}
         type="datetime-local"
-        class={`cursor-pointer hoverable`}
+        class="cursor-pointer hoverable input"
       />
       <TagInput
         tag={task.tag}

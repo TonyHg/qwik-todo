@@ -45,14 +45,16 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
   return (
     <div class="relative w-1/4">
       <button
-        class={`${tagOpen.value ? "bg-hover" : ""} w-full truncate hoverable`}
+        class={`${
+          tagOpen.value ? "bg-hover" : ""
+        } w-full truncate hoverable dark:text-white`}
         type="button"
         onClick$={toggleTagOpen}
       >
         {tag?.name ?? "Select Tag"}
       </button>
       {tagOpen.value && (
-        <div class="absolute overflow-visible z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-4">
+        <div class="absolute overflow-visible z-10 bg-white divide-y divide-gray-100 dark:divide-gray-700 rounded-lg shadow w-64 mt-4 dark:bg-slate-600">
           <form
             preventdefault:submit
             class="flex flex-col gap-2"
@@ -65,12 +67,12 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
                 onChange$={(event) => (tagInput.value = event.target.value)}
                 onKeyDown$={handleEnter}
                 placeholder="New Tag"
-                class={`focus:outline-none rounded-md px-2 py-1 w-full hoverable`}
+                class={`focus:outline-none rounded-md px-2 py-1 w-full hoverable input`}
               />
               <button
                 type="submit"
                 disabled={tagInput.value.trim().length === 0}
-                class="hoverable"
+                class="hoverable dark:bg-slate-700 dark:text-white"
               >
                 <LuPlus />
               </button>
@@ -84,7 +86,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
               >
                 <button
                   type="button"
-                  class={`text-left block w-full px-4 py-2 text-sm truncate hoverable`}
+                  class={`text-left block w-full px-4 py-2 text-sm truncate hoverable dark:text-white`}
                   onClick$={() => {
                     // eslint-disable-next-line qwik/valid-lexical-scope
                     handleClick(tag);
