@@ -1,17 +1,12 @@
-import type {
-  QwikDragEvent} from "@builder.io/qwik";
-import {
-  $,
-  component$,
-  useContext,
-  useSignal,
-} from "@builder.io/qwik";
+import type { QwikDragEvent } from "@builder.io/qwik";
+import { $, component$, useContext, useSignal } from "@builder.io/qwik";
 import type { DocumentHead } from "@builder.io/qwik-city";
 import Input from "~/components/todo/input";
 import { TodoContext } from "~/components/contexts/todo-context";
 import type { Todo } from "~/types/todo";
 import { TagGroup } from "~/components/todo/tag-group";
 import { moveTag } from "~/components/repositories/tags-repository";
+import { LuSun } from "@qwikest/icons/lucide";
 
 export default component$(() => {
   const todo: Todo = useContext(TodoContext) as Todo;
@@ -35,7 +30,12 @@ export default component$(() => {
 
   return (
     <div>
-      <h1 class="font-bold text-3xl mb-4">Todo List</h1>
+      <div class="flex flex-row justify-between gap-2 mb-4">
+        <h1 class="font-bold text-3xl">Todo List</h1>
+        <button type="button" class="hoverable">
+          <LuSun />
+        </button>
+      </div>
       <Input />
       <ul
         ref={listRef}

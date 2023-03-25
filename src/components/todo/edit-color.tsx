@@ -22,15 +22,15 @@ export const EditColor = component$<EditColorProps>(({ tagId, color }) => {
   });
 
   return (
-    <div className="relative visible-hover">
+    <div class="relative visible-hover">
       <button
-        className={`w-6 h-6 aspect-square rounded-md hoverable p-0 flex`}
+        class={`w-6 h-6 aspect-square rounded-md hoverable p-0 flex`}
         style={`background-color: ${color}`}
         type="button"
         onClick$={toggleColorOpen}
       ></button>
       {colorOpen.value && (
-        <div className="absolute right-0 pt-2 overflow-visible z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-2">
+        <div class="absolute right-0 pt-2 overflow-visible z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-64 mt-2">
           <ColorList selected={color} onSelect={handleSelect} />
         </div>
       )}

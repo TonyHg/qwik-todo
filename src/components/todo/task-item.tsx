@@ -127,7 +127,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             value={task.date}
             onChange$={handleDateChange}
             type="datetime-local"
-            className={`cursor-pointer hoverable ${
+            class={`cursor-pointer hoverable ${
               task.date ? "" : "visible-hover"
             }`}
           />
