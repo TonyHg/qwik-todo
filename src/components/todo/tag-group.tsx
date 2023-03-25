@@ -18,6 +18,7 @@ import {
   removeTag,
   renameTag,
 } from "~/components/repositories/tags-repository";
+import { EditColor } from "~/components/todo/edit-color";
 
 interface TagGroupProps {
   tag: Tag;
@@ -123,6 +124,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
           onBlur$={handleBlur}
           class="grow font-bold text-xl uppercase bg-transparent focus:outline-none rounded"
         />
+        <EditColor tagId={tag.id} color={tag.color} />
         <button
           onClick$={handleDelete}
           class={`hoverable visible-hover ${

@@ -44,6 +44,18 @@ export const renameTag = async (tag: Tag, name: string) => {
   await saveTags(tags);
 };
 
+export const changeTagColor = async (
+  tagId: string,
+  color: string
+): Promise<Tag[]> => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
+  tags[index].color = color;
+  await saveTags(tags);
+  return tags;
+};
+
 export const removeTag = async (tagId: string): Promise<Tag[]> => {
   const tags = await getTags();
   const index = tags.findIndex((t) => t.id === tagId);

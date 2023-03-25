@@ -4,8 +4,9 @@ import type { Tag } from "~/types/tag";
 import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
-import { LuCheck, LuPlus } from "@qwikest/icons/lucide";
+import { LuPlus } from "@qwikest/icons/lucide";
 import { COLORS } from "~/types/color";
+import { ColorList } from "~/components/todo/color-list";
 
 export interface TagInputProps {
   tag?: Tag;
@@ -38,6 +39,8 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
       handleAdd();
     }
   });
+
+  const handleSelect = $((color: string) => (tagColor.value = color));
 
   return (
     <div class="relative w-1/4">
@@ -72,27 +75,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
                 <LuPlus />
               </button>
             </div>
-            <div class="flex flex-row gap-2 px-2 pb-2 w-full overflow-x-auto">
-              {COLORS.map((color) => (
-                <button
-                  key={`tag-color-${color}`}
-                  type="button"
-                  class={`w-6 h-6 aspect-square rounded-md hoverable p-0 flex ${
-                    color === tagColor.value ? "border-2 border-gray-800" : ""
-                  }`}
-                  style={`background-color: ${color}`}
-                  onClick$={() => {
-                    tagColor.value = color;
-                  }}
-                >
-                  {color === tagColor.value && (
-                    <div class="m-auto">
-                      <LuCheck color="white" />
-                    </div>
-                  )}
-                </button>
-              ))}
-            </div>
+            <ColorList selected={tagColor.value} onSelect={handleSelect} />
           </form>
           <ul class="p-2 text-sm">
             {todo.tags.map((tag) => (

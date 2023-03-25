@@ -29,7 +29,8 @@ npm install # or `yarn install`
     - [x] Delete tag
     - [x] Rename tag
     - [x] Order tags
-    - [ ] Pick color
+    - [x] Pick color
+    - [x] Edit color
   - Style
     - [ ] Responsive
     - [ ] Dark mode
