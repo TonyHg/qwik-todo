@@ -3,6 +3,7 @@
 Simple todo list app built with Qwik.
 
 ![overview](https://github.com/TonyHg/qwik-todo/blob/main/overview.png?raw=true)
+![overview](https://github.com/TonyHg/qwik-todo/blob/main/overview-2.png?raw=true)
 
 ## Getting Started
 
