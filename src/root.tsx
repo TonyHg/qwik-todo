@@ -23,6 +23,7 @@ export default component$(() => {
         <meta charSet="utf-8" />
         <link rel="manifest" href="/manifest.json" />
         <RouterHead />
+        <title>Todo List</title>
       </head>
       <body lang="en">
         <TodoProvider>

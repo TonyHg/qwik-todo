@@ -82,7 +82,7 @@ export default component$(() => {
           task.name.trim().length === 0 ? "bg-hover" : "btn-active"
         }  delay-75`}
       >
-        <LuPlus class={loading.value ? "animate-spin" : ""} />
+        <LuPlus />
       </button>
     </form>
   );
