@@ -7,7 +7,7 @@ export default component$(() => {
   const theme = useContext(ThemeContext) as Theme;
   return (
     <div class={theme.value}>
-      <div class="dark:bg-slate-800 wrapper">
+      <div class="dark:bg-slate-800 wrapper min-h-screen">
         <main>
           <Slot />
         </main>
