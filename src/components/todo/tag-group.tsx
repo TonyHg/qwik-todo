@@ -21,6 +21,7 @@ import {
 import { EditColor } from "~/components/todo/edit-color";
 import { ThemeContext } from "~/components/contexts/theme-context";
 import type { Theme } from "~/types/color";
+import { getColorFromTheme } from "~/types/color";
 
 interface TagGroupProps {
   tag: Tag;
@@ -113,10 +114,7 @@ export const TagGroup = component$<TagGroupProps>(({ tag }) => {
       onDrop$={handleTaskDrop}
       draggable={dragging.value}
       style={{
-        color:
-          theme.value === "dark" && tag.color === "#2a2c2f"
-            ? "white"
-            : tag.color,
+        color: getColorFromTheme(theme.value, tag.color),
       }}
     >
       <div class="flex flex-row justify-between items-center parent-hover mt-6 mb-2 gap-2">

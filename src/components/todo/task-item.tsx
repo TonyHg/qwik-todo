@@ -17,6 +17,9 @@ import {
   LuGripVertical,
   LuTrash,
 } from "@qwikest/icons/lucide";
+import { ThemeContext } from "~/components/contexts/theme-context";
+import type { Theme } from "~/types/color";
+import { getColorFromTheme } from "~/types/color";
 
 interface TaskItemProps {
   tag: Tag;
@@ -80,6 +83,9 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
     }
   });
 
+  const theme = useContext(ThemeContext) as Theme;
+  const colorString = getColorFromTheme(theme.value, tag.color);
+
   return (
     <div
       preventdefault:dragover
@@ -107,9 +113,9 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             onClick$={toggleDone}
           >
             {done.value ? (
-              <LuCheckCircle2 color={tag.color} />
+              <LuCheckCircle2 color={colorString} />
             ) : (
-              <LuCircle color={tag.color} />
+              <LuCircle color={colorString} />
             )}
           </div>
           {done.value ? (
@@ -130,7 +136,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             class={`cursor-pointer hoverable input ${
               task.date ? "" : "visible-hover"
             }`}
-            style={`color: ${tag.color}`}
+            style={`color: ${colorString}`}
           />
           <button
             onClick$={handleDelete}

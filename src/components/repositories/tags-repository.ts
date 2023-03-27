@@ -1,5 +1,6 @@
 import type { Tag } from "~/types/tag";
 import { v4 } from "uuid";
+import type { Color } from "~/types/color";
 import { DEFAULT_COLOR } from "~/types/color";
 
 const TAG_KEY = "tags";
@@ -23,7 +24,7 @@ export const getTag = async (id: string): Promise<Tag> => {
   return tag;
 };
 
-export const addTag = async (name: string, color: string = DEFAULT_COLOR) => {
+export const addTag = async (name: string, color: Color = DEFAULT_COLOR) => {
   const tags = await getTags();
   const tag = {
     id: v4(),
@@ -46,7 +47,7 @@ export const renameTag = async (tag: Tag, name: string) => {
 
 export const changeTagColor = async (
   tagId: string,
-  color: string
+  color: Color
 ): Promise<Tag[]> => {
   const tags = await getTags();
   const index = tags.findIndex((t) => t.id === tagId);

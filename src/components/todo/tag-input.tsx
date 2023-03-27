@@ -5,6 +5,7 @@ import type { Todo } from "~/types/todo";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { addTag } from "~/components/repositories/tags-repository";
 import { LuPlus } from "@qwikest/icons/lucide";
+import type { Color } from "~/types/color";
 import { COLORS } from "~/types/color";
 import { ColorList } from "~/components/todo/color-list";
 
@@ -40,7 +41,7 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
     }
   });
 
-  const handleSelect = $((color: string) => (tagColor.value = color));
+  const handleSelect = $((color: Color) => (tagColor.value = color));
 
   return (
     <div class="relative w-1/4">
