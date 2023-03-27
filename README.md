@@ -35,8 +35,8 @@ npm install # or `yarn install`
     - [x] Pick color
     - [x] Edit color
   - Style
-    - [ ] Responsive
-    - [ ] Dark mode
+    - [x] Responsive
+    - [x] Dark mode
 
 ## Project Structure
 

@@ -65,7 +65,7 @@ export default component$(() => {
         value={task.date}
         onChange$={(event) => (task.date = event.target.value)}
         type="datetime-local"
-        class="cursor-pointer hoverable input"
+        class="cursor-pointer hoverable input hidden sm:block"
       />
       <TagInput
         tag={task.tag}

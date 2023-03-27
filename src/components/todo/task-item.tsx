@@ -135,7 +135,7 @@ export const TaskItem = component$<TaskItemProps>(({ tag, task }) => {
             type="datetime-local"
             class={`cursor-pointer hoverable input ${
               task.date ? "" : "visible-hover"
-            }`}
+            } hidden sm:block`}
             style={`color: ${colorString}`}
           />
           <button
