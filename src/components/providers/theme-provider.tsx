@@ -8,11 +8,20 @@ import {
 import { ThemeContext } from "~/components/contexts/theme-context";
 import type { Theme } from "~/types/color";
 
+const THEME_KEY = "theme";
+
 export const ThemeProvider = component$(() => {
   const state = useStore<Theme>({ value: "light" });
 
   useVisibleTask$(async () => {
-    // TODO: get theme preference from browser
+    const theme = window.localStorage.getItem(THEME_KEY) ?? "light";
+    if (theme) {
+      state.value = theme;
+    } else {
+      state.value = window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light";
+    }
   });
 
   useContextProvider(ThemeContext, state);

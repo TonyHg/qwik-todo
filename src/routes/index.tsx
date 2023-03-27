@@ -33,6 +33,7 @@ export default component$(() => {
   const theme = useContext(ThemeContext) as Theme;
   const toggleDarkMode = $(() => {
     theme.value = theme.value === "light" ? "dark" : "light";
+    if (window !== undefined) window.localStorage.setItem("theme", theme.value);
   });
 
   return (

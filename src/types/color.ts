@@ -17,5 +17,6 @@ export const COLORS = [
 export const DEFAULT_COLOR = COLORS[0];
 
 export type Theme = {
-  value: "light" | "dark";
+  value: string;
+  // value: "light" | "dark";
 };
