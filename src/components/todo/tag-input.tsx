@@ -81,20 +81,23 @@ export const TagInput = component$<TagInputProps>(({ tag, handleClick }) => {
             <ColorList selected={tagColor.value} onSelect={handleSelect} />
           </form>
           <ul class="p-2 text-sm">
-            {todo.tags.map((tag) => (
+            {todo.tags.map((tagItem) => (
               <li
-                key={`tag-option-${tag.id} mb-1 last:mb-0 max-h-[500px] overflow-y-auto`}
+                key={`tag-option-${tagItem.id}`}
+                class="mb-1 last:mb-0 max-h-[500px] overflow-y-auto"
               >
                 <button
                   type="button"
-                  class={`text-left block w-full px-4 py-2 text-sm truncate hoverable dark:text-white`}
+                  class={`text-left block w-full px-4 py-2 text-sm truncate hoverable ${
+                    tagItem.id === tag?.id && "bg-hover"
+                  } dark:text-white`}
                   onClick$={() => {
                     // eslint-disable-next-line qwik/valid-lexical-scope
-                    handleClick(tag);
+                    handleClick(tagItem);
                     tagOpen.value = false;
                   }}
                 >
-                  {tag.name}
+                  {tagItem.name}
                 </button>
               </li>
             ))}
