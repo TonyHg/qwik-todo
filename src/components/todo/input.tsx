@@ -4,13 +4,14 @@ import {
   useContext,
   useSignal,
   useStore,
+  useVisibleTask$,
 } from "@builder.io/qwik";
 import { addTask } from "~/components/repositories/tasks-repository";
-import { Tag } from "~/types/tag";
+import type { Tag } from "~/types/tag";
 import { TodoContext } from "~/components/contexts/todo-context";
-import { Todo } from "~/types/todo";
+import type { Todo } from "~/types/todo";
 import { TagInput } from "~/components/todo/tag-input";
-import { PlusIcon, LoaderIcon } from "lucide-qwik";
+import { LuPlus } from "@qwikest/icons/lucide";
 
 interface AddTaskState {
   name: string;
@@ -24,18 +25,23 @@ export default component$(() => {
     date: undefined,
     tag: undefined,
   });
+  const todo: Todo = useContext(TodoContext) as Todo;
+  useVisibleTask$(async ({ track }) => {
+    track(() => todo.tags);
+    if (task.tag === undefined && todo.tags.length > 0) {
+      task.tag = todo.tags[0];
+    }
+  });
 
   const loading = useSignal(false);
 
-  const todo: Todo = useContext(TodoContext) as Todo;
-
   const handleSubmit = $(() => {
-    console.debug("Adding new task");
-    console.log(task);
     loading.value = true;
     addTask(task.name, task.date, task.tag?.id)
       .then((tags) => {
         todo.tags = tags;
+        task.name = "";
+        task.date = undefined;
       })
       .finally(() => {
         loading.value = false;
@@ -52,14 +58,14 @@ export default component$(() => {
         value={task.name}
         onChange$={(event) => (task.name = event.target.value)}
         type="text"
-        class={`w-1/2 hoverable`}
+        class="grow hoverable input"
         placeholder="Read last chapter of Eleceed..."
       />
       <input
         value={task.date}
         onChange$={(event) => (task.date = event.target.value)}
-        type="date"
-        class={`cursor-pointer hoverable`}
+        type="datetime-local"
+        class="cursor-pointer hoverable input hidden sm:block"
       />
       <TagInput
         tag={task.tag}
@@ -70,9 +76,11 @@ export default component$(() => {
       <button
         type="submit"
         disabled={task.name.trim().length === 0}
-        class={`${loading.value ? "bg-hover" : ""} hoverable`}
+        class={`hoverable aspect-square ${
+          task.name.trim().length === 0 ? "bg-hover" : "btn-active"
+        }  delay-75`}
       >
-        <PlusIcon class={loading.value ? "animate-spin" : "animate-pulse"} />
+        <LuPlus />
       </button>
     </form>
   );

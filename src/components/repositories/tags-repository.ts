@@ -1,11 +1,9 @@
-import { Tag } from "~/types/tag";
+import type { Tag } from "~/types/tag";
 import { v4 } from "uuid";
-import { useContext } from "@builder.io/qwik";
-import { TodoContext } from "~/components/contexts/todo-context";
-import { Todo } from "~/types/todo";
+import type { Color } from "~/types/color";
+import { DEFAULT_COLOR } from "~/types/color";
 
 const TAG_KEY = "tags";
-const DEFAULT_COLOR = "#2a2c2f";
 export const DEFAULT_TAG: Tag = {
   id: "default",
   name: "Other",
@@ -15,9 +13,7 @@ export const DEFAULT_TAG: Tag = {
 
 export const getTags: () => Promise<Tag[]> = async () => {
   if (typeof window === "undefined") return [];
-  console.log("Loading tags...");
   const tags = window.localStorage.getItem(TAG_KEY);
-  console.log("Tags loaded", tags);
   return tags ? JSON.parse(tags) : [DEFAULT_TAG];
 };
 
@@ -28,7 +24,7 @@ export const getTag = async (id: string): Promise<Tag> => {
   return tag;
 };
 
-export const addTag = async (name: string, color: string = DEFAULT_COLOR) => {
+export const addTag = async (name: string, color: Color = DEFAULT_COLOR) => {
   const tags = await getTags();
   const tag = {
     id: v4(),
@@ -41,17 +37,44 @@ export const addTag = async (name: string, color: string = DEFAULT_COLOR) => {
   return { tags, tag };
 };
 
-export const editTag = async (tags: Tag[], tag: Tag) => {
+export const renameTag = async (tag: Tag, name: string) => {
+  const tags = await getTags();
   const index = tags.findIndex((t) => t.id === tag.id);
-  tags[index] = tag;
+  if (index === -1) throw new Error("Tag not found");
+  tags[index].name = name;
   await saveTags(tags);
 };
 
-export const removeTag = async (tags: Tag[], tag: Tag) => {
-  const index = tags.indexOf(tag);
-  if (index === -1) return;
+export const changeTagColor = async (
+  tagId: string,
+  color: Color
+): Promise<Tag[]> => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
+  tags[index].color = color;
+  await saveTags(tags);
+  return tags;
+};
+
+export const removeTag = async (tagId: string): Promise<Tag[]> => {
+  const tags = await getTags();
+  const index = tags.findIndex((t) => t.id === tagId);
+  if (index === -1) throw new Error("Tag not found");
   tags.splice(index, 1);
   await saveTags(tags);
+  return tags;
+};
+
+export const moveTag = async (tagId: string, index: number): Promise<Tag[]> => {
+  const tags = await getTags();
+  const tagIndex = tags.findIndex((t) => t.id === tagId);
+  if (tagIndex === -1) throw new Error("Tag not found");
+  index--;
+  const tag = tags.splice(tagIndex, 1)[0];
+  tags.splice(index, 0, tag);
+  await saveTags(tags);
+  return tags;
 };
 
 export const saveTags = async (tags: Tag[]) => {

@@ -7,7 +7,7 @@ import {
 } from "@builder.io/qwik";
 import { TodoContext } from "~/components/contexts/todo-context";
 import { getTags } from "~/components/repositories/tags-repository";
-import { Todo } from "~/types/todo";
+import type { Todo } from "~/types/todo";
 
 export const TodoProvider = component$(() => {
   const state = useStore<Todo>({

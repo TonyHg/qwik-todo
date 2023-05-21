@@ -1,12 +1,42 @@
-# Qwik City App ⚡️
+# Qwik Todo
 
-- [Qwik Docs](https://qwik.builder.io/)
-- [Discord](https://qwik.builder.io/chat)
-- [Qwik GitHub](https://github.com/BuilderIO/qwik)
-- [@QwikDev](https://twitter.com/QwikDev)
-- [Vite](https://vitejs.dev/)
+Simple todo list app built with Qwik.
 
----
+![overview](https://github.com/TonyHg/qwik-todo/blob/main/overview.png?raw=true)
+![overview](https://github.com/TonyHg/qwik-todo/blob/main/overview-2.png?raw=true)
+
+## Getting Started
+
+To get started, clone this repo and run `npm install` or `yarn install` to install the dependencies.
+
+```shell
+git clone
+cd qwik-todo
+npm install # or `yarn install`
+```
+
+## Features
+
+- Todo
+  - Task
+    - [x] Add task
+    - [x] Delete task
+    - [x] Mark task as completed
+    - [x] Rename task
+    - [x] Move task to another list
+    - [x] Order tasks
+    - [x] Add due date
+    - [ ] Add reminder (push notification)
+  - Tag
+    - [x] Add tag
+    - [x] Delete tag
+    - [x] Rename tag
+    - [x] Order tags
+    - [x] Pick color
+    - [x] Edit color
+  - Style
+    - [x] Responsive
+    - [x] Dark mode
 
 ## Project Structure
 
@@ -63,3 +93,50 @@ The production build will generate client and server modules by running both cli
 ```shell
 npm run build # or `yarn build`
 ```
+
+## Author
+- [Tony Heng](https://github.com/TonyHg)
+
+## Vercel Edge
+
+This starter site is configured to deploy to [Vercel Edge Functions](https://vercel.com/docs/concepts/functions/edge-functions), which means it will be rendered at an edge location near to your users.
+
+## Installation
+
+The adaptor will add a new `vite.config.ts` within the `adapters/` directory, and a new entry file will be created, such as:
+
+```
+└── adapters/
+    └── vercel-edge/
+        └── vite.config.ts
+└── src/
+    └── entry.vercel-edge.tsx
+```
+
+Additionally, within the `package.json`, the `build.server` script will be updated with the Vercel Edge build.
+
+## Production build
+
+To build the application for production, use the `build` command, this command will automatically run `npm run build.server` and `npm run build.client`:
+
+```shell
+npm run build
+```
+
+[Read the full guide here](https://github.com/BuilderIO/qwik/blob/main/starters/adapters/vercel-edge/README.md)
+
+## Dev deploy
+
+To deploy the application for development:
+
+```shell
+npm run deploy
+```
+
+Notice that you might need a [Vercel account](https://docs.Vercel.com/get-started/) in order to complete this step!
+
+## Production deploy
+
+The project is ready to be deployed to Vercel. However, you will need to create a git repository and push the code to it.
+
+You can [deploy your site to Vercel](https://vercel.com/docs/concepts/deployments/overview) either via a Git provider integration or through the Vercel CLI.

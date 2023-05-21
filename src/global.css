@@ -15,11 +15,19 @@
   --qwik-light-blue: #18b6f6;
   --qwik-light-purple: #ac7ff4;
   --qwik-dark-purple: #713fc2;
+  color: #323f4b;
+}
+
+* {
+  transition: all 0.2s ease-in-out;
 }
 
 body {
   background-color: #fafafa;
   font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.wrapper {
   padding: 20px 20px 40px 20px;
 }
 
@@ -32,14 +40,42 @@ main {
 
 @layer components {
   .card {
-    @apply bg-white rounded-lg px-4 py-2 w-full justify-between items-center;
+    @apply bg-white rounded-lg px-4 py-2 w-full justify-between items-center dark:bg-slate-700;
+  }
+
+  .card-done {
+    @apply bg-gray-100 line-through text-gray-300 decoration-gray-600;
+  }
+
+  .card-dragging {
+    @apply opacity-20
   }
 
   .hoverable {
-    @apply hover:bg-gray-100 focus:bg-gray-100 focus:outline-none rounded-md px-2 py-1;
+    @apply hover:bg-gray-100 focus:bg-gray-100 focus:outline-none rounded-md px-2 py-1 dark:hover:bg-gray-600 dark:focus:bg-gray-600;
   }
 
   .bg-hover {
     @apply bg-gray-100;
+  }
+
+  .visible-hover {
+    @apply opacity-0;
+  }
+
+  .parent-hover:hover .visible-hover {
+    @apply opacity-100;
+  }
+
+  .btn-active {
+    @apply bg-blue-600 text-white
+  }
+
+  .btn-active:hover {
+    @apply bg-blue-700
+  }
+
+  .input {
+    @apply dark:bg-slate-700 dark:text-white;
   }
 }
